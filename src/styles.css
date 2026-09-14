@@ -766,7 +766,7 @@ button,
 .mobile-menu-links a {
   font-family: var(--font-heading);
 
-  font-size: clamp(36px, 10vw, 56px);
+  font-size: clamp(28px, 7vw, 42px);
 
   font-weight: var(--weight-heading);
 
@@ -1345,6 +1345,7 @@ body.menu-open {
   text-align: center;
   padding-bottom: 0px;
   margin-bottom: -52px;
+  padding-inline: 16px !important;
 }
 
 @media (max-width: 767px) {
@@ -1813,19 +1814,25 @@ body.menu-open {
 }
 
 /* Hovering a card grows it slightly and dims/blurs the others to
-   spotlight the one being hovered. */
-.brand-card:hover {
-  width: 224px;
+   spotlight the one being hovered. Gated to devices with a real
+   mouse/trackpad (hover:hover, pointer:fine) — on touch, tapping a
+   card would otherwise trigger :hover and leave it "stuck" enlarged
+   with the rest blurred until the user taps elsewhere, since touch
+   has no separate hover state to release. */
+@media (hover: hover) and (pointer: fine) {
+  .brand-card:hover {
+    width: 224px;
 
-  height: 154px;
+    height: 154px;
 
-  z-index: 60;
-}
+    z-index: 60;
+  }
 
-.brands-track:has(.brand-card:hover) .brand-card:not(:hover) {
-  filter: blur(4px);
+  .brands-track:has(.brand-card:hover) .brand-card:not(:hover) {
+    filter: blur(4px);
 
-  opacity: 0.45;
+    opacity: 0.45;
+  }
 }
 
 /* =========================================================
@@ -2161,7 +2168,7 @@ footer .wordmark {
 
   justify-content: space-between;
 
-  align-items: center;
+  /* align-items: center; */
 
   gap: var(--space-16);
 
@@ -2316,6 +2323,10 @@ footer .wordmark {
 
     inset: auto;
     margin: 0;
+
+    /* stacked order is Quick Links, wordmark, Contact Me in the
+       HTML — bump the name to the top on mobile/tablet */
+    order: -1;
 
     white-space: normal;
 
@@ -2738,12 +2749,6 @@ footer .wordmark {
       transform 0.3s ease,
       filter 0.35s ease,
       opacity 0.35s ease;
-  }
-
-  .brand-card:hover {
-    transform: scale(1.06);
-
-    z-index: 2;
   }
 
   .footer-grid {
