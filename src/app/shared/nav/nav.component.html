@@ -1,0 +1,67 @@
+<header class="site-nav" [class.is-scrolled]="headerScrolled">
+  <div class="wrap">
+    <a routerLink="/" fragment="top" class="logo">
+      <img src="images/Logo.svg" alt="Logo" />
+    </a>
+
+    <nav class="nav-links">
+      <a routerLink="/" fragment="top">Home</a>
+      <a routerLink="/" fragment="about">About Me</a>
+      <a routerLink="/" fragment="works">Works</a>
+    </nav>
+
+    <a routerLink="/" fragment="contact" class="contact-pill">
+      Contact Me
+
+      <svg
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        aria-hidden="true"
+      >
+        <path d="M7 17L17 7M17 7H7M17 7V17" />
+      </svg>
+    </a>
+
+    <button
+      type="button"
+      class="menu-toggle"
+      [class.is-active]="menuOpen"
+      [attr.aria-expanded]="menuOpen"
+      aria-controls="mobile-menu"
+      (click)="toggleMenu()"
+    >
+      <span class="menu-toggle-label">{{ menuOpen ? 'Close' : 'Menu' }}</span>
+
+      <span class="menu-toggle-icon" aria-hidden="true">
+        <span></span>
+        <span></span>
+      </span>
+    </button>
+  </div>
+</header>
+
+<div class="mobile-menu" [class.is-open]="menuOpen" id="mobile-menu">
+  <div class="wrap mobile-menu-inner">
+    <nav class="mobile-menu-links">
+      <a routerLink="/" fragment="top">Home</a>
+      <a routerLink="/" fragment="about">About Me</a>
+      <a routerLink="/" fragment="works">Works</a>
+    </nav>
+
+    <a routerLink="/" fragment="contact" class="contact-pill mobile-menu-contact">
+      Contact Me
+
+      <svg
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        aria-hidden="true"
+      >
+        <path d="M7 17L17 7M17 7H7M17 7V17" />
+      </svg>
+    </a>
+  </div>
+</div>

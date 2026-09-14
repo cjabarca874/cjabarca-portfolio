@@ -1,0 +1,89 @@
+<section class="works" id="works">
+  <div class="wrap works-head">
+    <h2>
+      Selected
+      <span class="accent-text">Works</span>
+    </h2>
+
+    <p>
+      A collection of websites, interfaces, product concepts, and creative
+      experiments I've designed across different industries and visual
+      styles.
+    </p>
+
+    <p>
+      Each project explores a different challenge — from clear user journeys
+      and responsive layouts to typography, interaction, and visual
+      storytelling.
+    </p>
+  </div>
+
+  <!-- PINNED WORK STAGE
+       Desktop: pinned — scrolling crossfades between
+       projects, image and copy together (image left,
+       info right), with a progress bar below.
+       Mobile: a plain stacked list, each project
+       revealing on scroll (no pin/JS). -->
+
+  <div class="work-stage">
+    <div class="wrap work-stage-grid">
+      <!-- CROSSFADING IMAGES (desktop) -->
+
+      <div class="work-visual" aria-hidden="true">
+        <div
+          class="work-image"
+          *ngFor="let project of projects; let i = index"
+          [class.is-active]="i === 0"
+        >
+          <img [src]="project.image" alt="" />
+        </div>
+      </div>
+
+      <!-- CROSSFADING COPY -->
+
+      <div class="work-info">
+        <article
+          class="work-card"
+          *ngFor="let project of projects; let i = index"
+          [class.is-active]="i === 0"
+        >
+          <div class="work-card-thumb">
+            <img [src]="project.image" [alt]="project.title + ' website design'" />
+          </div>
+
+          <span class="work-number">{{ (i + 1).toString().padStart(2, '0') }}</span>
+
+          <h3>{{ project.title }}</h3>
+
+          <p>{{ project.summary }}</p>
+
+          <span class="work-tag">{{ project.tag }}</span>
+
+          <a [routerLink]="['/project', project.slug]" class="work-view">
+            View
+
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              aria-hidden="true"
+            >
+              <path d="M7 17L17 7M17 7H7M17 7V17" />
+            </svg>
+          </a>
+        </article>
+      </div>
+    </div>
+
+    <!-- PROGRESS (desktop only) -->
+
+    <div class="works-progress">
+      <span id="works-count"> 01/03 </span>
+
+      <div class="bar">
+        <i id="works-bar"></i>
+      </div>
+    </div>
+  </div>
+</section>

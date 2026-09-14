@@ -1,0 +1,76 @@
+<ng-container *ngIf="project">
+  <!-- ======================================================
+     PROJECT HERO
+  ======================================================= -->
+
+  <section class="project-hero">
+    <div class="wrap">
+      <a routerLink="/" fragment="works" class="project-back">
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          aria-hidden="true"
+        >
+          <path d="M7 17L17 7M17 7H7M17 7V17" />
+        </svg>
+        Back to Works
+      </a>
+
+      <span class="project-tag accent-text">{{ project.tag }}</span>
+
+      <h1>{{ project.title }}</h1>
+
+      <p class="project-sub">{{ project.summary }}</p>
+    </div>
+  </section>
+
+  <!-- ======================================================
+     PROJECT MEDIA
+  ======================================================= -->
+
+  <section class="project-media">
+    <div class="wrap">
+      <figure class="project-shot">
+        <img [src]="project.image" [alt]="project.title + ' website design'" />
+      </figure>
+    </div>
+  </section>
+
+  <!-- ======================================================
+     PROJECT BODY
+  ======================================================= -->
+
+  <section class="project-body">
+    <div class="wrap project-body-grid">
+      <div class="project-info">
+        <h2>Overview</h2>
+
+        <div>
+          <p *ngFor="let paragraph of project.overview">{{ paragraph }}</p>
+        </div>
+      </div>
+
+      <dl class="project-meta">
+        <div *ngFor="let item of project.meta">
+          <dt>{{ item.label }}</dt>
+          <dd>{{ item.value }}</dd>
+        </div>
+      </dl>
+    </div>
+  </section>
+
+  <!-- ======================================================
+     NEXT PROJECT
+  ======================================================= -->
+
+  <section class="project-next">
+    <div class="wrap">
+      <a [routerLink]="['/project', nextProject.slug]" class="project-next-link">
+        <span>Next Project</span>
+        <strong>{{ nextProject.title }} →</strong>
+      </a>
+    </div>
+  </section>
+</ng-container>
