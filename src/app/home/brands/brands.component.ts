@@ -1,6 +1,8 @@
 import { AfterViewInit, Component, OnDestroy } from '@angular/core';
 import gsap from 'gsap';
 
+import { RevealHandle, revealOnScroll } from '../../core/reveal';
+
 interface CoverflowController {
   coverflowVars: (i: number, center: number) => Record<string, number>;
   renderCoverflow: (center: number) => void;
@@ -13,10 +15,11 @@ interface CoverflowController {
 
 /**
  * Brands / clients section — an autoplaying, draggable 3D coverflow on
- * desktop (min-width: 901px). On mobile the section renders as a plain
- * static 2-column grid handled entirely by CSS (see the "(max-width:
- * 900px)" block in styles.css) — no JS/animation runs below that
- * breakpoint.
+ * desktop (min-width: 901px). On mobile the cards lay out as a plain
+ * static 2-column grid (handled entirely by CSS — see the "(max-width:
+ * 900px)" block in styles.css); the only JS that still runs below that
+ * breakpoint is a small scroll-scrubbed background/text color fade from
+ * light to dark, mirroring the desktop entrance transition.
  */
 @Component({
   selector: 'app-brands',
@@ -26,11 +29,20 @@ interface CoverflowController {
 })
 export class BrandsComponent implements AfterViewInit, OnDestroy {
   private mm?: gsap.MatchMedia;
+  private headReveal?: RevealHandle;
 
   ngAfterViewInit(): void {
     if (typeof window === 'undefined') {
       return;
     }
+
+    // Eyebrow + heading + intro copy fade up as the section is
+    // approached — same on desktop and mobile, independent of the
+    // coverflow/color entrance below.
+    this.headReveal = revealOnScroll(
+      document,
+      '.brands-head .brands-eyebrow, .brands-head h2, .brands-head p',
+    );
 
     this.mm = gsap.matchMedia();
 
@@ -143,12 +155,48 @@ export class BrandsComponent implements AfterViewInit, OnDestroy {
       };
     });
 
-    // Mobile (max-width: 900px) intentionally has no matchMedia handler —
-    // it's a static CSS grid with no autoplay/drag/3D behavior needed.
+    // Mobile (max-width: 900px): still a static CSS grid — no coverflow,
+    // drag, or autoplay — but the section background/text still scrubs
+    // from light to dark on scroll, mirroring the desktop entrance
+    // transition instead of snapping straight to dark on load.
+    this.mm.add('(max-width: 900px)', () => {
+      const brandsSection = document.querySelector('.brands');
+
+      if (!brandsSection) {
+        return;
+      }
+
+      gsap.set(brandsSection, { backgroundColor: '#eeeeee', color: '#101114' });
+      gsap.set('.brands-head p', { color: 'rgba(16,17,20,.7)' });
+
+      const colorTween = gsap.timeline({
+        scrollTrigger: {
+          trigger: brandsSection,
+          start: 'top 80%',
+          end: 'top 20%',
+          scrub: 0.5,
+        },
+      });
+
+      colorTween.to(
+        brandsSection,
+        { backgroundColor: '#03060a', color: '#eeeeee', ease: 'none' },
+        0,
+      );
+      colorTween.to('.brands-head p', { color: 'rgba(238,238,238,.6)', ease: 'none' }, 0);
+
+      return () => {
+        colorTween.scrollTrigger?.kill();
+        colorTween.kill();
+        gsap.set(brandsSection, { clearProps: 'backgroundColor,color' });
+        gsap.set('.brands-head p', { clearProps: 'color' });
+      };
+    });
   }
 
   ngOnDestroy(): void {
     this.mm?.revert();
+    this.headReveal?.kill();
   }
 
   private createCoverflowController(

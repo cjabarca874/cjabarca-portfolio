@@ -1398,6 +1398,7 @@ body.menu-open {
 }
 
 .work-stage-grid {
+  padding-bottom: 40px;
   display: grid;
 
   grid-template-columns: minmax(420px, 1.05fr) minmax(360px, 0.95fr);
@@ -1739,6 +1740,7 @@ body.menu-open {
   -webkit-user-select: none;
 
   user-select: none;
+  padding-bottom: 40px;
 }
 
 .brands-stage.is-draggable {
@@ -2449,7 +2451,7 @@ footer .wordmark {
 
     --section-padding: 110px;
 
-    --section-padding-bottom: 100px;
+    --section-padding-bottom: 40px;
 
     --header-padding-top: 18px;
     --header-padding-scrolled: 9px;
@@ -2498,12 +2500,6 @@ footer .wordmark {
 
   .about-copy p {
     max-width: 600px;
-
-    color: var(--color-text-light-70);
-  }
-
-  .about-copy strong {
-    color: var(--color-white);
   }
 
   .about-stage {
@@ -2588,14 +2584,6 @@ footer .wordmark {
     max-width: none;
 
     margin: 45px var(--container-padding) 0;
-  }
-
-  #about-count {
-    color: var(--color-text-light-45);
-  }
-
-  .about-progress .bar {
-    background: var(--border-light-18);
   }
 
   .works-head {
@@ -2685,24 +2673,15 @@ footer .wordmark {
 
   /* =======================================================
      BRANDS — TABLET/MOBILE
-     No coverflow here — the section just stays dark, and
-     the cards lay out as a plain static 2-column grid.
-     No JS/animation runs at this breakpoint (see
-     brands.component.ts).
+     No coverflow/drag/autoplay here — the cards lay out as a
+     plain static 2-column grid. The section still starts light
+     and scrubs to dark on scroll, same as desktop's entrance
+     transition; see the "(max-width: 900px)" branch in
+     brands.component.ts for that part.
   ======================================================= */
-
-  .brands {
-    background: var(--color-black);
-
-    color: var(--color-white);
-  }
 
   .brands-head {
     padding: var(--section-padding) 0 40px;
-  }
-
-  .brands-head p {
-    color: var(--color-text-light-60);
   }
 
   .brands-stage {
@@ -2789,9 +2768,9 @@ footer .wordmark {
   :root {
     --container-padding: 18px;
 
-    --section-padding: 90px;
+    --section-padding: 40px;
 
-    --section-padding-bottom: 80px;
+    --section-padding-bottom: 40px;
 
     --fs-base: 0.9375rem;
 

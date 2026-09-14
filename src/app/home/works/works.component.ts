@@ -4,6 +4,7 @@ import { RouterLink } from '@angular/router';
 import gsap from 'gsap';
 
 import { PROJECTS, Project } from '../../data/project';
+import { RevealHandle, revealOnScroll } from '../../core/reveal';
 
 /**
  * Works section — pinned, crossfading project gallery on desktop
@@ -20,11 +21,17 @@ export class WorksComponent implements AfterViewInit, OnDestroy {
   projects: Project[] = PROJECTS;
 
   private mm?: gsap.MatchMedia;
+  private headReveal?: RevealHandle;
 
   ngAfterViewInit(): void {
     if (typeof window === 'undefined') {
       return;
     }
+
+    // Section heading + intro copy fade up as they scroll into view —
+    // same treatment on desktop and mobile, independent of the
+    // pinned/stacked gallery choreography below.
+    this.headReveal = revealOnScroll(document, '.works-head h2, .works-head p');
 
     const workStage = document.querySelector('.work-stage');
     const worksBar = document.querySelector('#works-bar');
@@ -141,5 +148,6 @@ export class WorksComponent implements AfterViewInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.mm?.revert();
+    this.headReveal?.kill();
   }
 }

@@ -3,6 +3,8 @@ import { RouterLink } from '@angular/router';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
+import { RevealHandle, revealOnScroll } from '../../core/reveal';
+
 /**
  * About section — ported from the "DESKTOP ABOUT" / "MOBILE ABOUT"
  * gsap.matchMedia() blocks in script.js. Desktop pins the section and
@@ -16,6 +18,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 })
 export class AboutComponent implements AfterViewInit, OnDestroy {
   private mm?: gsap.MatchMedia;
+  private copyReveal?: RevealHandle;
 
   ngAfterViewInit(): void {
     if (typeof window === 'undefined') {
@@ -25,6 +28,13 @@ export class AboutComponent implements AfterViewInit, OnDestroy {
     const aboutSection = document.querySelector('#about');
     const aboutBar = document.querySelector('#about-bar');
     const aboutCount = document.querySelector<HTMLElement>('#about-count');
+
+    // Heading + intro paragraphs fade up as the section is approached —
+    // same on desktop and mobile, and independent of the pinned card
+    // story / color scrub above, so it fires once as you scroll in.
+    this.copyReveal = revealOnScroll(document, '.about-copy h2, .about-copy p', {
+      start: 'top 78%',
+    });
 
     this.mm = gsap.matchMedia();
 
@@ -168,13 +178,39 @@ export class AboutComponent implements AfterViewInit, OnDestroy {
         return;
       }
 
-      gsap.set('#about', { backgroundColor: '#07090e', color: '#eeeeee' });
-      gsap.set('.about-copy p', { color: 'rgba(238,238,238,.68)' });
-      gsap.set('.about-copy strong', { color: '#eeeeee' });
-      gsap.set('#about-count', { color: 'rgba(238,238,238,.55)' });
-      gsap.set('.about-progress .bar', { backgroundColor: 'rgba(238,238,238,.18)' });
+      // Start light — same initial palette as desktop — then scrub to
+      // dark as the section scrolls into view, instead of snapping to
+      // dark immediately on load.
+      gsap.set('#about', { backgroundColor: '#eeeeee', color: '#101114' });
+      gsap.set('.about-copy p', { color: 'rgba(16,17,20,.68)' });
+      gsap.set('.about-copy strong', { color: '#101114' });
+      gsap.set('#about-count', { color: 'rgba(16,17,20,.65)' });
+      gsap.set('.about-progress .bar', { backgroundColor: 'rgba(16,17,20,.18)' });
       gsap.set('.about-image', { filter: 'blur(0px)', opacity: 1, scale: 1 });
       gsap.set('.about-card', { opacity: 0, visibility: 'visible', y: 35 });
+
+      const colorTween = gsap.timeline({
+        scrollTrigger: {
+          trigger: aboutSection,
+          start: 'top 80%',
+          end: 'top 20%',
+          scrub: 0.5,
+        },
+      });
+
+      colorTween.to('#about', { backgroundColor: '#07090e', color: '#eeeeee', ease: 'none' }, 0);
+      colorTween.to(
+        '.about-copy p',
+        { color: 'rgba(238,238,238,.68)', ease: 'none' },
+        0,
+      );
+      colorTween.to('.about-copy strong', { color: '#eeeeee', ease: 'none' }, 0);
+      colorTween.to('#about-count', { color: 'rgba(238,238,238,.55)', ease: 'none' }, 0);
+      colorTween.to(
+        '.about-progress .bar',
+        { backgroundColor: 'rgba(238,238,238,.18)', ease: 'none' },
+        0,
+      );
 
       const mobileCards: any[] = gsap.utils.toArray('.about-card');
       mobileCards.forEach((card: any) => {
@@ -205,13 +241,21 @@ export class AboutComponent implements AfterViewInit, OnDestroy {
 
       return () => {
         trigger.kill();
+        colorTween.scrollTrigger?.kill();
+        colorTween.kill();
         gsap.set('.about-card', { clearProps: 'transform,opacity,visibility' });
         gsap.set('.about-image', { clearProps: 'filter,opacity,transform' });
+        gsap.set('#about', { clearProps: 'backgroundColor,color' });
+        gsap.set('.about-copy p', { clearProps: 'color' });
+        gsap.set('.about-copy strong', { clearProps: 'color' });
+        gsap.set('#about-count', { clearProps: 'color' });
+        gsap.set('.about-progress .bar', { clearProps: 'backgroundColor' });
       };
     });
   }
 
   ngOnDestroy(): void {
     this.mm?.revert();
+    this.copyReveal?.kill();
   }
 }
