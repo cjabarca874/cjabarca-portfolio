@@ -121,7 +121,9 @@ export class BrandsComponent implements AfterViewInit, OnDestroy {
           autoplayIsOn = true;
           controller.startAutoplay();
           // Only becomes grab/draggable once it's actually the
-          // coverflow — not while it's still showing as a grid.
+          // coverflow, not while it's still showing as a grid. Hover
+          // grow works in every phase (see cardHoverCleanups below),
+          // so it doesn't need to wait for this.
           controller.enableDrag();
         },
       });
@@ -299,13 +301,29 @@ export class BrandsComponent implements AfterViewInit, OnDestroy {
     // coverflow. zIndex is bumped well above the coverflow's own
     // 0-100 range so the hovered card is always frontmost regardless
     // of its position in the ring.
+    //
+    // What to grow FROM, and shrink back TO on mouseleave, is read
+    // directly off the card itself at the moment the hover starts —
+    // gsap.getProperty gives whatever GSAP currently has it at,
+    // whether that's the initial grid (scale 1), mid-flight through
+    // the scroll-driven entrance transition, or the fully-formed
+    // coverflow. Capturing the real live value instead of recomputing
+    // an assumed formula (coverflowVars, or a hardcoded "1") is what
+    // guarantees mouseleave always restores the exact size the card
+    // actually had — that mismatch is what previously left a hovered
+    // card stuck oversized instead of shrinking back.
     const cardHoverCleanups: Array<() => void> = [];
 
-    cards.forEach((card, i) => {
+    cards.forEach((card) => {
+      let baseline: { scale: number; zIndex: number } | null = null;
+
       const onCardEnter = () => {
-        const rest = coverflowVars(i, currentCenter);
+        baseline = {
+          scale: gsap.getProperty(card, 'scale') as number,
+          zIndex: gsap.getProperty(card, 'zIndex') as number,
+        };
         gsap.to(card, {
-          scale: rest.scale * 1.18,
+          scale: baseline.scale * 1.18,
           zIndex: 999,
           duration: 0.3,
           ease: 'power2.out',
@@ -314,14 +332,17 @@ export class BrandsComponent implements AfterViewInit, OnDestroy {
       };
 
       const onCardLeave = () => {
-        const rest = coverflowVars(i, currentCenter);
+        if (!baseline) {
+          return;
+        }
         gsap.to(card, {
-          scale: rest.scale,
-          zIndex: rest.zIndex,
+          scale: baseline.scale,
+          zIndex: baseline.zIndex,
           duration: 0.3,
           ease: 'power2.out',
           overwrite: 'auto',
         });
+        baseline = null;
       };
 
       card.addEventListener('mouseenter', onCardEnter);

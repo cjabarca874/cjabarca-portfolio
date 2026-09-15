@@ -38,7 +38,7 @@
 .cursor-ring {
   width: 40px;
   height: 40px;
-  background: #f2483687;
+  background: var(--color-accent-1, #f24836);
   opacity: 0.15;
   z-index: 1;
   transition:
