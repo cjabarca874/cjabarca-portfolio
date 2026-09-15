@@ -6,12 +6,19 @@ import { ScrollService } from '../core/scroll.service';
 import { HeroComponent } from './hero/hero.component';
 import { AboutComponent } from './about/about.component';
 import { WorksComponent } from './works/works.component';
+import { PortfolioWorkComponent } from './portfolio-work/portfolio-work.component';
 import { BrandsComponent } from './brands/brands.component';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [HeroComponent, AboutComponent, WorksComponent, BrandsComponent],
+  imports: [
+    HeroComponent,
+    AboutComponent,
+    WorksComponent,
+    PortfolioWorkComponent,
+    BrandsComponent,
+  ],
   templateUrl: './home.component.html',
 })
 export class HomeComponent implements AfterViewInit, OnDestroy {

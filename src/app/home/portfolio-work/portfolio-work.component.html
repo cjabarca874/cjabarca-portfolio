@@ -1,0 +1,107 @@
+<section class="portfolio-work" id="client-work">
+  <div class="section-inner">
+    <!-- INTRO -->
+    <header class="work-intro">
+      <p class="eyebrow">{{ eyebrow }}</p>
+      <h2 class="heading">{{ heading }}</h2>
+      <p class="intro">{{ intro }}</p>
+      <p class="supporting-text">{{ supportingText }}</p>
+
+      <ul class="skills">
+        @for (skill of skills; track skill) {
+          <li class="skill-tag">{{ skill }}</li>
+        }
+      </ul>
+    </header>
+
+    <!-- FEATURED PROJECT: NOTABLE DESIGN CO. -->
+    <a
+      class="featured-project"
+      [href]="featuredProject.url"
+      target="_blank"
+      rel="noopener noreferrer"
+      [attr.aria-label]="'Visit ' + featuredProject.title + ' (opens in a new tab)'"
+    >
+      <div class="featured-content">
+        <h3 class="featured-title">{{ featuredProject.title }}</h3>
+        <p class="featured-meta">{{ featuredProject.meta }}</p>
+        <p class="featured-description">{{ featuredProject.description }}</p>
+
+        <span class="visit-link">
+          Visit Website
+          <svg
+            class="arrow-icon"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            aria-hidden="true"
+          >
+            <path d="M7 17L17 7M17 7H7M17 7V17" />
+          </svg>
+        </span>
+      </div>
+
+      <div class="featured-media">
+        <img
+          [src]="featuredProject.image"
+          [alt]="featuredProject.title + ' website preview'"
+          width="1902"
+          height="950"
+          loading="lazy"
+        />
+      </div>
+    </a>
+
+    <!-- CLIENT PROJECTS -->
+    <p class="projects-label">{{ projectsLabel }}</p>
+
+    <div class="projects-grid">
+      @for (project of projects; track project.title) {
+        <a
+          class="project-card"
+          [class.no-link]="!project.url"
+          [href]="project.url || null"
+          [attr.target]="project.url ? '_blank' : null"
+          [attr.rel]="project.url ? 'noopener noreferrer' : null"
+          [attr.aria-label]="
+            project.url
+              ? 'Visit ' + project.title + ' (opens in a new tab)'
+              : project.title
+          "
+        >
+          <div class="pw-project-media">
+            <img
+              [src]="project.image"
+              [alt]="project.title + ' website preview'"
+              width="1902"
+              height="950"
+              loading="lazy"
+            />
+          </div>
+
+          <div class="pw-project-info">
+            <h4 class="project-title">{{ project.title }}</h4>
+            <p class="project-category">{{ project.category }}</p>
+
+            @if (project.url) {
+              <span class="visit-link">
+                Visit Website
+                <svg
+                  class="arrow-icon"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  aria-hidden="true"
+                >
+                  <path d="M7 17L17 7M17 7H7M17 7V17" />
+                </svg>
+              </span>
+            }
+          </div>
+        </a>
+      }
+    </div>
+  </div>
+</section>

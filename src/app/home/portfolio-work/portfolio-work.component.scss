@@ -1,0 +1,389 @@
+/* =========================================================
+   SELECTED CLIENT & AGENCY WORK
+   Full-width, dark, editorial section. All colors/spacing
+   are exposed as custom properties on the host selector so
+   the section is easy to re-theme from outside.
+========================================================= */
+
+.portfolio-work {
+  /* Pulled straight from the site's own design tokens (src/styles.css)
+     so this section matches the rest of the portfolio exactly — swap
+     these to re-theme independently if it's ever reused elsewhere. */
+  --pw-bg: var(--color-black, #03060a);
+  --pw-surface: var(--border-light-05, rgba(238, 238, 238, 0.05));
+  --pw-border: var(--border-light-13, rgba(238, 238, 238, 0.13));
+  --pw-text: var(--color-white, #eeeeee);
+  --pw-text-muted: var(--color-text-light-70, rgba(238, 238, 238, 0.7));
+  --pw-text-faint: var(--color-text-light-45, rgba(238, 238, 238, 0.45));
+  --pw-accent: var(--color-accent-1, #f24836);
+  --pw-accent-gradient: var(
+    --gradient-accent,
+    linear-gradient(90deg, #f24836, #fa5d34)
+  );
+  --pw-radius: var(--radius-lg, 12px);
+  --pw-radius-inner: var(--radius-md, 6px);
+  --pw-shadow: var(--shadow-card, 0 38px 100px rgba(0, 0, 0, 0.62));
+  --pw-transition: var(--transition-fast, 0.3s ease);
+  --pw-transition-media: var(--transition-medium, 0.6s ease);
+  --pw-gap: var(--space-8, 2rem);
+  --pw-section-padding-y: var(--section-padding, 150px);
+  --pw-gutter: var(--container-padding, 48px);
+
+  width: 100%;
+  background: var(--pw-bg);
+  color: var(--pw-text);
+  padding-block: var(--pw-section-padding-y);
+  overflow: clip;
+}
+
+/* No max-width here on purpose — the featured screenshot and the
+   project grid stretch across the full page. Individual text blocks
+   (.work-intro, .featured-description) keep their own max-width below
+   so paragraphs stay readable even on very wide screens. */
+.section-inner {
+  width: 100%;
+  padding-inline: var(--pw-gutter);
+}
+
+/* =========================================================
+   INTRO
+========================================================= */
+
+.work-intro {
+  max-width: 780px;
+  margin-bottom: clamp(56px, 7vw, 96px);
+}
+
+.eyebrow {
+  margin: 0 0 18px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--pw-accent);
+}
+
+.heading {
+  margin: 0 0 24px;
+  font-size: clamp(1.9rem, 3.4vw, 2.75rem);
+  line-height: 1.18;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--pw-text);
+}
+
+.intro {
+  margin: 0 0 16px;
+  font-size: clamp(1.05rem, 1.4vw, 1.2rem);
+  line-height: 1.6;
+  color: var(--pw-text);
+}
+
+.supporting-text {
+  margin: 0 0 32px;
+  font-size: 1rem;
+  line-height: 1.7;
+  color: var(--pw-text-muted);
+}
+
+.skills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.skill-tag {
+  padding: 8px 16px;
+  border: 1px solid var(--pw-border);
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  color: var(--pw-text-muted);
+  background: var(--pw-surface);
+  white-space: nowrap;
+}
+
+/* =========================================================
+   SHARED: VISIT-WEBSITE LINK
+========================================================= */
+
+.visit-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--pw-text);
+}
+
+.arrow-icon {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+  transition: transform var(--pw-transition);
+}
+
+/* =========================================================
+   FEATURED PROJECT — NOTABLE DESIGN CO.
+   A case-study-style preview: a large, full-width screenshot
+   with the write-up beneath it.
+========================================================= */
+
+.featured-project {
+  display: grid;
+  grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+  align-items: center;
+  gap: clamp(32px, 5vw, 64px);
+  padding: clamp(28px, 3.5vw, 48px);
+  text-decoration: none;
+  color: inherit;
+  border: 1px solid var(--pw-border);
+  border-radius: var(--pw-radius);
+  background: var(--pw-surface);
+  margin-bottom: clamp(64px, 8vw, 112px);
+  transition:
+    border-color var(--pw-transition),
+    transform var(--pw-transition),
+    box-shadow var(--pw-transition);
+}
+
+.featured-project:hover,
+.featured-project:focus-visible {
+  border-color: var(--pw-accent);
+  transform: translateY(-4px);
+  box-shadow: var(--pw-shadow);
+}
+
+.featured-project:hover .visit-link .arrow-icon,
+.featured-project:focus-visible .visit-link .arrow-icon {
+  transform: translate(2px, -2px);
+}
+
+/* Content sits left, media sits right (see DOM order in the template).
+   The media column gets more of the row (see grid-template-columns
+   above) so the screenshot reads as large, but the image itself is
+   never cropped or height-constrained: it just fills its column at
+   its own natural aspect ratio. */
+.featured-content {
+  order: 1;
+}
+
+.featured-media {
+  order: 2;
+  width: 100%;
+  border-radius: var(--pw-radius-inner);
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.featured-media img {
+  display: block;
+  width: 100%;
+  height: auto;
+  transition: transform var(--pw-transition-media);
+}
+
+.featured-project:hover .featured-media img,
+.featured-project:focus-visible .featured-media img {
+  transform: scale(1.035);
+}
+
+.featured-title {
+  margin: 0 0 10px;
+  font-size: clamp(1.5rem, 2.6vw, 2.1rem);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.featured-meta {
+  margin: 0 0 18px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--pw-accent);
+}
+
+.featured-description {
+  margin: 0 0 26px;
+  max-width: 640px;
+  font-size: 1.02rem;
+  line-height: 1.7;
+  color: var(--pw-text-muted);
+}
+
+/* =========================================================
+   CLIENT PROJECTS GRID
+========================================================= */
+
+.projects-label {
+  margin: 0 0 24px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--pw-text-faint);
+}
+
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--pw-gap);
+  /* Cards size to their own image's natural height (see .pw-project-media
+     below), so don't stretch every card in a row to match the tallest. */
+  align-items: start;
+}
+
+.project-card {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  border: 1px solid var(--pw-border);
+  border-radius: var(--pw-radius);
+  background: var(--pw-surface);
+  overflow: hidden;
+  transition:
+    border-color var(--pw-transition),
+    transform var(--pw-transition),
+    box-shadow var(--pw-transition);
+}
+
+.project-card:hover,
+.project-card:focus-visible {
+  border-color: var(--pw-accent);
+  transform: translateY(-6px);
+  box-shadow: var(--pw-shadow);
+}
+
+.project-card:hover .visit-link .arrow-icon,
+.project-card:focus-visible .visit-link .arrow-icon {
+  transform: translate(2px, -2px);
+}
+
+/* Named .pw-project-media (not .project-media) on purpose: the global
+   src/styles.css already defines an unrelated .project-media rule for
+   the standalone project detail page (with its own padding-bottom and
+   background), and Angular's component style scoping doesn't stop that
+   global rule from also matching here. A unique class name avoids the
+   collision. Same reasoning for .pw-project-info below. */
+.pw-project-media {
+  overflow: hidden;
+  background: var(--pw-surface);
+}
+
+.pw-project-media img {
+  display: block;
+  width: 100%;
+  height: auto;
+  transition: transform var(--pw-transition-media);
+}
+
+.project-card:hover .pw-project-media img,
+.project-card:focus-visible .pw-project-media img {
+  transform: scale(1.05);
+}
+
+.pw-project-info {
+  padding: 22px 24px 26px;
+}
+
+.project-title {
+  margin: 0 0 6px;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.project-category {
+  margin: 0 0 14px;
+  font-size: 0.88rem;
+  color: var(--pw-text-muted);
+}
+
+/* Projects without a live URL (e.g. the plumbing site) render as a
+   plain, non-interactive card: no href, no hover lift/zoom. */
+
+.project-card.no-link {
+  cursor: default;
+}
+
+.project-card.no-link:hover,
+.project-card.no-link:focus-visible {
+  border-color: var(--pw-border);
+  transform: none;
+  box-shadow: none;
+}
+
+.project-card.no-link:hover .pw-project-media img {
+  transform: none;
+}
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 1024px) {
+  .portfolio-work {
+    --pw-gutter: 32px;
+  }
+}
+
+/* Below this width the featured card stacks into a single column.
+   .featured-media gets order:-1 so the screenshot appears above the
+   write-up, matching the image-on-top pattern used by the client
+   project cards right below it. */
+@media (max-width: 860px) {
+  .featured-project {
+    grid-template-columns: 1fr;
+  }
+
+  .featured-media {
+    order: -1;
+  }
+}
+
+@media (max-width: 700px) {
+  .portfolio-work {
+    --pw-gutter: 20px;
+  }
+
+  .projects-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  .featured-project,
+  .project-card,
+  .featured-media img,
+  .pw-project-media img,
+  .arrow-icon {
+    transition: none !important;
+  }
+
+  .featured-project:hover,
+  .featured-project:focus-visible,
+  .project-card:hover,
+  .project-card:focus-visible {
+    transform: none !important;
+  }
+
+  .featured-project:hover .featured-media img,
+  .featured-project:focus-visible .featured-media img,
+  .project-card:hover .pw-project-media img,
+  .project-card:focus-visible .pw-project-media img {
+    transform: none !important;
+  }
+
+  .featured-project:hover .visit-link .arrow-icon,
+  .project-card:hover .visit-link .arrow-icon {
+    transform: none !important;
+  }
+}
