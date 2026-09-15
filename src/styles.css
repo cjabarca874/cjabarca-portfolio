@@ -1821,15 +1821,16 @@ body.menu-open {
    card would otherwise trigger :hover and leave it "stuck" enlarged
    with the rest blurred until the user taps elsewhere, since touch
    has no separate hover state to release. */
+/* The "grow on hover" part of this used to be width/height here, which
+   forced layout + repaint on every frame of the transition — stacked
+   on top of the coverflow's own per-frame 3D transform updates, that
+   combination was the visible stutter when hovering a card. The grow
+   is now done as a GSAP scale/zIndex tween alongside the coverflow's
+   own transforms (see BrandsComponent's createCoverflowController),
+   so it's compositor-only like the rest of the coverflow. Only the
+   dim/blur of the OTHER cards — a single transition, not a per-frame
+   cost — still lives here in plain CSS. */
 @media (hover: hover) and (pointer: fine) {
-  .brand-card:hover {
-    width: 224px;
-
-    height: 154px;
-
-    z-index: 60;
-  }
-
   .brands-track:has(.brand-card:hover) .brand-card:not(:hover) {
     filter: blur(4px);
 

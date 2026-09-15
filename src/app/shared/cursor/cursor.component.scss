@@ -1,0 +1,59 @@
+/* =========================================================
+   CUSTOM CURSOR — small dot leads, larger ring trails behind.
+   Both are `position: fixed` and moved purely via GSAP-driven
+   transforms (see cursor.component.ts), never CSS transitions,
+   so they stay perfectly in sync with the ticker instead of
+   racing a separate CSS timing function.
+========================================================= */
+
+:host {
+  display: contents;
+}
+
+.custom-cursor {
+  position: fixed;
+  inset: 0;
+  overflow: visible;
+  pointer-events: none;
+  z-index: 9999;
+}
+
+.cursor-dot,
+.cursor-ring {
+  position: fixed;
+  top: 0;
+  left: 0;
+  border-radius: 50%;
+  pointer-events: none;
+  visibility: hidden;
+}
+
+.cursor-dot {
+  width: 8px;
+  height: 8px;
+  background: var(--color-accent-2, #fa5d34);
+  z-index: 2;
+}
+
+.cursor-ring {
+  width: 40px;
+  height: 40px;
+  background: #f2483687;
+  opacity: 0.15;
+  z-index: 1;
+  transition:
+    width 0.25s ease,
+    height 0.25s ease,
+    opacity 0.25s ease;
+}
+
+.cursor-ring.is-active {
+  width: 64px;
+  height: 64px;
+  opacity: 0.25;
+}
+
+/* No prefers-reduced-motion rule needed here: CursorComponent itself
+   skips activating the custom cursor under reduced motion, so these
+   elements simply stay hidden (visibility: hidden, set above) and the
+   visitor keeps their native cursor. */

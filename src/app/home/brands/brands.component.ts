@@ -251,10 +251,18 @@ export class BrandsComponent implements AfterViewInit, OnDestroy {
         const delta = time - lastTime;
         lastTime = time;
 
-        if (!paused && !dragging) {
-          currentCenter += 0.35 * delta;
+        if (paused || dragging) {
+          // Nothing is actually moving while paused (e.g. the pointer
+          // is hovering the stage — see mouseenter/mouseleave below)
+          // or mid-drag (onPointerMove already re-renders directly).
+          // Skip re-running gsap.set on every card here too: doing it
+          // unconditionally every frame competed with the CSS
+          // hover/blur transition below for main-thread time right
+          // when it mattered most, which was the visible stutter.
+          return;
         }
 
+        currentCenter += 0.35 * delta;
         renderCoverflow(currentCenter);
       };
 
@@ -281,6 +289,49 @@ export class BrandsComponent implements AfterViewInit, OnDestroy {
 
     stage.addEventListener('mouseenter', pause);
     stage.addEventListener('mouseleave', resume);
+
+    // Hover "grow" for an individual card. This used to be a CSS
+    // width/height transition (see styles.css), which forces layout
+    // + repaint on every frame it's animating — stacked on top of the
+    // coverflow's own per-frame 3D transform updates, that was the
+    // visible stutter on hover. Doing the grow as a GSAP scale tween
+    // instead keeps it compositor-only, like the rest of the
+    // coverflow. zIndex is bumped well above the coverflow's own
+    // 0-100 range so the hovered card is always frontmost regardless
+    // of its position in the ring.
+    const cardHoverCleanups: Array<() => void> = [];
+
+    cards.forEach((card, i) => {
+      const onCardEnter = () => {
+        const rest = coverflowVars(i, currentCenter);
+        gsap.to(card, {
+          scale: rest.scale * 1.18,
+          zIndex: 999,
+          duration: 0.3,
+          ease: 'power2.out',
+          overwrite: 'auto',
+        });
+      };
+
+      const onCardLeave = () => {
+        const rest = coverflowVars(i, currentCenter);
+        gsap.to(card, {
+          scale: rest.scale,
+          zIndex: rest.zIndex,
+          duration: 0.3,
+          ease: 'power2.out',
+          overwrite: 'auto',
+        });
+      };
+
+      card.addEventListener('mouseenter', onCardEnter);
+      card.addEventListener('mouseleave', onCardLeave);
+
+      cardHoverCleanups.push(() => {
+        card.removeEventListener('mouseenter', onCardEnter);
+        card.removeEventListener('mouseleave', onCardLeave);
+      });
+    });
 
     const dragSensitivity = 140;
     let dragStartX = 0;
@@ -325,6 +376,7 @@ export class BrandsComponent implements AfterViewInit, OnDestroy {
       stage.removeEventListener('pointermove', onPointerMove);
       stage.removeEventListener('pointerup', onPointerUp);
       stage.removeEventListener('pointercancel', onPointerUp);
+      cardHoverCleanups.forEach((cleanup) => cleanup());
       stage.classList.remove('is-dragging', 'is-draggable');
       gsap.set(cards, { clearProps: 'all' });
     }
