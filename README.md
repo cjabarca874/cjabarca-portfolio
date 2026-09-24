@@ -2,11 +2,10 @@
 
 This is your original portfolio (`index.html` / `project.html` / `style.css` /
 `script.js` / `hero-effect.js` / `project.js` / `project-data.js`) converted
-into an Angular application. The visual design, copy, and all animations
-(Lenis smooth scroll, GSAP/ScrollTrigger pinned sections, the Three.js hero
-particle field, and the brands coverflow) were ported as-is — same
-`style.css`, same behavior — just reorganized into Angular components with
-routing instead of two separate HTML files.
+into an Angular application with routed pages. It uses native browser
+scrolling alongside GSAP/ScrollTrigger pinned sections, the Three.js hero
+particle field, and the brands coverflow. Scroll smoothing was removed
+after disabling it resolved flicker in the client work section.
 
 ## Project structure
 
@@ -19,16 +18,14 @@ routing instead of two separate HTML files.
   `project.html?slug=...`.
 - `src/app/data/project.ts` — the three projects (Huts Haven, CompTech, GPS
   Drone), ported from `project-data.js`.
-- `src/app/core/scroll.service.ts` — the shared Lenis + GSAP ScrollTrigger
-  setup, ported from `script.js`.
+- `src/app/core/scroll.service.ts` — native section navigation, header scroll
+  state, and shared GSAP ScrollTrigger setup.
 - `src/styles.css` — your original `style.css`, unchanged, loaded globally.
 - `public/images`, `public/fonts` — your original assets.
 
 ## Running it
 
-This project was written by hand in a sandboxed environment without access
-to the npm registry, so it hasn't been installed or build-tested yet. To run
-it on your machine:
+To run locally:
 
 ```bash
 cd angular-app
@@ -50,10 +47,8 @@ you'd upload to a static host (same as you would have with the original
 
 ## If `npm install` or the build hits an error
 
-Since this couldn't be test-built before delivery, it's possible there's a
-small issue (a typo, an import mismatch) that will only show up once
-dependencies are actually installed. If you hit an error, paste it back into
-the chat and it can be fixed directly.
+The production build downloads Google Fonts to inline their stylesheets.
+It requires network access to Google Fonts.
 
 ## What's slightly different from the original
 
@@ -61,7 +56,7 @@ the chat and it can be fixed directly.
   `project.html?slug=...`. Section links use `routerLink` + a URL fragment
   (e.g. `/#about`), and each project now lives at `/project/huts-haven`,
   `/project/comptech`, `/project/gps-drone`.
-- The mobile menu, header scroll state, smooth scrolling, and every
+- The mobile menu, header scroll state, native scrolling, and every
   scroll-triggered animation are wired up per-component using Angular
   lifecycle hooks (`ngAfterViewInit` / `ngOnDestroy`) instead of one big
   `script.js` that ran once on page load.

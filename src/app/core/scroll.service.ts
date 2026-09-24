@@ -1,16 +1,13 @@
 import { Injectable, NgZone } from '@angular/core';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import Lenis from 'lenis';
 
 /**
- * Central smooth-scroll + ScrollTrigger bootstrap, ported from the
- * original script.js. Registered once (from AppComponent) so every
- * page/section shares the same Lenis instance and GSAP ticker.
+ * Native scrolling + ScrollTrigger bootstrap shared across routes.
+ * Browser scrolling avoids the client-work flicker seen with scroll smoothing.
  */
 @Injectable({ providedIn: 'root' })
 export class ScrollService {
-  private lenis?: Lenis;
   private ready = false;
   private isHeaderScrolled = false;
   private headerListeners: Array<(scrolled: boolean) => void> = [];
@@ -25,24 +22,10 @@ export class ScrollService {
     this.zone.runOutsideAngular(() => {
       gsap.registerPlugin(ScrollTrigger);
 
-      this.lenis = new Lenis({
-        duration: 1.15,
-        easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-        smoothWheel: true,
-        wheelMultiplier: 1,
-        touchMultiplier: 1.2,
-      });
-
-      this.lenis.on('scroll', (event: { scroll: number }) => {
-        ScrollTrigger.update();
-        this.updateHeader(event.scroll);
-      });
-
-      gsap.ticker.add((time: number) => {
-        this.lenis?.raf(time * 1000);
-      });
-
-      gsap.ticker.lagSmoothing(0);
+      // ScrollTrigger handles native scroll events itself.
+      window.addEventListener('scroll', () => {
+        this.updateHeader(window.scrollY);
+      }, { passive: true });
 
       this.updateHeader(window.scrollY);
 
@@ -77,12 +60,19 @@ export class ScrollService {
     this.ready = true;
   }
 
-  /** Smooth-scroll to a section, mirroring the old anchor-link handler. */
-  scrollTo(target: string | number | HTMLElement, options?: Record<string, unknown>): void {
-    if (!this.lenis) {
+  /** Keep section links and project navigation working with native scrolling. */
+  scrollTo(target: string | number | HTMLElement): void {
+    if (typeof window === 'undefined') {
       return;
     }
-    this.lenis.scrollTo(target, { duration: 1.3, offset: 0, ...options });
+    const element = typeof target === 'string' ? document.querySelector(target) : target;
+    if (element === null) {
+      return;
+    }
+    const top = typeof element === 'number'
+      ? element
+      : element.getBoundingClientRect().top + window.scrollY;
+    window.scrollTo({ top, behavior: 'instant' });
   }
 
   refresh(): void {

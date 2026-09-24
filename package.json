@@ -18,7 +18,6 @@
     "@angular/platform-browser-dynamic": "^18.0.0",
     "@angular/router": "^18.0.0",
     "gsap": "^3.12.5",
-    "lenis": "^1.1.14",
     "rxjs": "~7.8.0",
     "three": "^0.160.0",
     "tslib": "^2.6.0",

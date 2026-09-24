@@ -1,0 +1,21 @@
+{
+  "method": "Built-in image generation",
+  "prompts": [
+    {
+      "name": "aurum",
+      "prompt": "Use case: product-mockup. Create a polished square 2 by 2 photographic collage for a portfolio brand board for Aurum. Input image is the reference logo artwork, preserve its symbol and spelling as closely as possible. Four equal square panels, narrow white gutters: three realistic branded applications (premium business cards, presentation folder, embossed notebook) and one abstract material/detail photograph inspired by the logo. Palette: black, electric blue, warm ivory. Soft editorial studio lighting, tactile materials, clean sophisticated art direction, lively but restrained. No extra slogans, no invented contact information, no watermarks, no board headings or color swatches. This is concept imagery, not an actual client product photo."
+    },
+    {
+      "name": "college",
+      "prompt": "Use case: product-mockup. Create a polished square 2 by 2 photographic collage for a portfolio brand board for College of Computer Education. Input image is the reference logo artwork, preserve its symbol and spelling as closely as possible. Four equal square panels, narrow white gutters: three realistic branded applications (academic stationery, notebook, campus lanyard) and one abstract material/detail photograph inspired by the logo. Palette: white, vermilion orange, silver. Soft editorial studio lighting, tactile materials, clean sophisticated art direction, lively but restrained. No extra slogans, no invented contact information, no watermarks, no board headings or color swatches. This is concept imagery, not an actual client product photo."
+    },
+    {
+      "name": "shepherd",
+      "prompt": "Use case: product-mockup. Create a polished square 2 by 2 photographic collage for a portfolio brand board for Shepherd International. Input image is the reference logo artwork, preserve its symbol and spelling as closely as possible. Four equal square panels, narrow white gutters: three realistic branded applications (travel stationery, tote bag, brochure) and one abstract material/detail photograph inspired by the logo. Palette: warm ivory, vivid orange, aqua blue. Soft editorial studio lighting, tactile materials, clean sophisticated art direction, lively but restrained. No extra slogans, no invented contact information, no watermarks, no board headings or color swatches. This is concept imagery, not an actual client product photo."
+    },
+    {
+      "name": "hutshaven",
+      "prompt": "Use case: product-mockup. Create a polished square 2 by 2 photographic collage for a portfolio brand board for Hutshaven. Input image is the reference logo artwork, preserve its symbol and spelling as closely as possible. Four equal square panels, narrow white gutters: three realistic branded applications (business cards, architectural presentation folder, signage plaque) and one abstract material/detail photograph inspired by the logo. Palette: white, deep teal-black, charcoal. Soft editorial studio lighting, tactile materials, clean sophisticated art direction, lively but restrained. No extra slogans, no invented contact information, no watermarks, no board headings or color swatches. This is concept imagery, not an actual client product photo."
+    }
+  ]
+}

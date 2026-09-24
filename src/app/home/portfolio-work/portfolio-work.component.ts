@@ -41,6 +41,8 @@ export class PortfolioWorkComponent {
     "My work spans Notable's own website and client projects, including UI/UX implementation, responsive development, custom interactions, site updates, QA, and ongoing improvements.";
 
   skills: string[] = [
+    'Graphic Design',
+    'Web Design',
     'UI/UX Design',
     'WordPress',
     'Bricks Builder',
@@ -50,6 +52,9 @@ export class PortfolioWorkComponent {
     'Leadpages',
     'Custom CSS/JS',
     'Responsive Development',
+    'Cloudways',
+    'Cloudflare',
+    'Pressable',
   ];
 
   featuredProject: FeaturedProject = {

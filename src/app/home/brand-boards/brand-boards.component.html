@@ -1,0 +1,176 @@
+<section
+  class="brand-boards"
+  id="brand-boards"
+  aria-labelledby="brand-boards-title"
+>
+  <div class="board-wrap">
+    <header class="board-heading">
+      <p class="board-eyebrow">Graphic Design / Visual Identity</p>
+      <h2 id="brand-boards-title">From logo to visual identity.</h2>
+      <p>
+        Concept brand boards exploring color, typography, and logo arrangements.
+        Palettes and font pairings are proposed directions inspired by the
+        artwork, rather than existing brand specifications.
+      </p>
+    </header>
+    <div class="board-grid">
+      @for (board of boards; track board.name; let index = $index) {
+        <article
+          class="identity-board"
+          [style.--board-paper]="board.background"
+          [style.--board-ink]="board.foreground"
+          [style.--board-accent]="board.accent"
+        >
+          <header class="board-title">
+            <span class="board-index"
+              >0{{ index + 1 }} / CONCEPT BRAND BOARD</span
+            >
+            <h3>{{ board.name }}</h3>
+          </header>
+          <a
+            class="primary-logo"
+            [href]="board.image"
+            target="_blank"
+            rel="noopener noreferrer"
+            [attr.aria-label]="
+              'View ' + board.name + ' logo at full size (opens in a new tab)'
+            "
+          >
+            <img
+              [src]="board.image"
+              [alt]="board.name + ' original logo artwork'"
+              width="1860"
+              height="1000"
+              loading="lazy"
+            />
+          </a>
+          <div class="board-content">
+            <section class="board-module" aria-label="Proposed color palette">
+              <h4>01 / Color palette</h4>
+              <div class="palette">
+                @for (color of board.colors; track color.hex) {
+                  <div class="swatch">
+                    <span
+                      class="color-chip"
+                      [style.background-color]="color.hex"
+                      aria-hidden="true"
+                    ></span>
+                    <strong>{{ color.name }}</strong
+                    ><code>{{ color.hex }}</code>
+                  </div>
+                }
+              </div>
+            </section>
+            <section class="board-module" aria-label="Proposed typography">
+              <h4>02 / Typography</h4>
+              <div class="type-pair">
+                <div [style.font-family]="board.headingFont + ', sans-serif'">
+                  <span class="type-sample">Aa</span>
+                  <strong>{{ board.headingFont }}</strong>
+                  <p>Headings / Bold 700</p>
+                  <p class="alphabet">
+                    ABCDEFGHIJKLMNOPQRSTUVWXYZ<br />abcdefghijklmnopqrstuvwxyz<br />0123456789
+                  </p>
+                </div>
+                <div [style.font-family]="board.bodyFont + ', sans-serif'">
+                  <span class="type-sample type-regular">Aa</span>
+                  <strong>{{ board.bodyFont }}</strong>
+                  <p>Body / Regular 400</p>
+                  <p class="alphabet">
+                    ABCDEFGHIJKLMNOPQRSTUVWXYZ<br />abcdefghijklmnopqrstuvwxyz<br />0123456789
+                  </p>
+                </div>
+              </div>
+              <dl class="type-scale">
+                <div>
+                  <dt>Display</dt>
+                  <dd>48 px / 1.1 line height</dd>
+                </div>
+                <div>
+                  <dt>Heading</dt>
+                  <dd>32 px / 1.2 line height</dd>
+                </div>
+                <div>
+                  <dt>Body</dt>
+                  <dd>16 px / 1.6 line height</dd>
+                </div>
+                <div>
+                  <dt>Caption</dt>
+                  <dd>12 px / 1.5 line height</dd>
+                </div>
+              </dl>
+              <p class="board-note">
+                Suggested digital type scale. Supporting fonts are
+                recommendations, not an identification of the original logo
+                lettering.
+              </p>
+            </section>
+            <!-- <section class="board-module" aria-label="Sample logo lockups">
+              <h4>03 / Sample lockups</h4>
+              <div class="lockup lockup-horizontal">
+                <img
+                  [src]="board.image"
+                  alt=""
+                  width="1860"
+                  height="1000"
+                  loading="lazy"
+                />
+                <span
+                  [style.font-family]="board.headingFont + ', sans-serif'"
+                  >{{ board.descriptor }}</span
+                >
+              </div>
+              <p class="lockup-caption">
+                Horizontal / logo + supporting descriptor
+              </p>
+              <div class="lockup lockup-stacked">
+                <img
+                  [src]="board.image"
+                  alt=""
+                  width="1860"
+                  height="1000"
+                  loading="lazy"
+                />
+                <span
+                  [style.font-family]="board.headingFont + ', sans-serif'"
+                  >{{ board.descriptor }}</span
+                >
+              </div>
+              <p class="lockup-caption">Stacked / centered presentation</p>
+              <p class="board-note">
+                Keep proportions intact and leave generous clear space. These
+                arrangements use the original artwork.
+              </p>
+            </section> -->
+            <section class="board-module" aria-label="Concept mockup imagery">
+              <h4>03 / Imagery &amp; applications</h4>
+              <a
+                [href]="board.mockup"
+                target="_blank"
+                rel="noopener noreferrer"
+                [attr.aria-label]="
+                  'View ' + board.name + ' concept mockups (opens in a new tab)'
+                "
+              >
+                <img
+                  class="mockup-collage"
+                  [src]="board.mockup"
+                  [alt]="
+                    board.name +
+                    ' concept collage of branded applications and materials'
+                  "
+                  width="1254"
+                  height="1254"
+                  loading="lazy"
+                />
+              </a>
+            </section>
+          </div>
+          <footer class="board-footer">
+            {{ board.name }} / Visual identity concept
+          </footer>
+        </article>
+      }
+    </div>
+  </div>
+</section>

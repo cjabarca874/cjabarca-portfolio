@@ -806,8 +806,9 @@ body.menu-open {
 
   overflow: hidden;
 
-  padding: var(--section-padding) var(--container-padding)
-    var(--section-padding-bottom);
+  /* Reserve room for the fixed header and the bottom scroll cue,
+     including on short screens where content makes the hero grow. */
+  padding: clamp(120px, 16vh, 160px) var(--container-padding) 150px;
 
   text-align: center;
 }
@@ -880,22 +881,31 @@ body.menu-open {
   width: 100%;
 
   max-width: 900px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(24px, 4vw, 36px);
+  min-width: 0;
 }
 
 .hero h1 {
-  margin-bottom: var(--space-7);
+  margin: 0;
 
-  font-size: var(--fs-h1);
+  font-size: clamp(32px, 5.5vw, 52px);
 
-  line-height: var(--lh-heading);
+  line-height: 1.12;
 
   letter-spacing: var(--tracking-tight);
+  text-wrap: balance;
+  overflow-wrap: break-word;
+  max-width: 100%;
 }
 
 .hero .sub {
   max-width: 520px;
 
-  margin: 0 auto 46px;
+  margin: 0;
 
   color: var(--color-text-light-60);
 
@@ -934,6 +944,21 @@ body.menu-open {
 /* =========================================================
    SCROLL CUE
 ========================================================= */
+
+.back-to-top {
+  padding: 12px 18px;
+  border: 1px solid currentColor;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--color-white);
+  cursor: pointer;
+  min-height: 44px;
+}
+
+.back-to-top:focus-visible {
+  outline: 2px solid var(--color-accent-1);
+  outline-offset: 4px;
+}
 
 .scroll-cue {
   position: absolute;

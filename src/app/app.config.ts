@@ -8,7 +8,7 @@ export const appConfig: ApplicationConfig = {
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(
       routes,
-      // Fragment/scroll handling is done ourselves via Lenis (see ScrollService),
+      // Fragment/scroll handling is managed by ScrollService,
       // so we keep Angular's own scroll restoration out of the way.
       withInMemoryScrolling({ scrollPositionRestoration: 'disabled' }),
     ),

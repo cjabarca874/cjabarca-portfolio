@@ -147,14 +147,12 @@
   margin-bottom: clamp(64px, 8vw, 112px);
   transition:
     border-color var(--pw-transition),
-    transform var(--pw-transition),
     box-shadow var(--pw-transition);
 }
 
 .featured-project:hover,
 .featured-project:focus-visible {
   border-color: var(--pw-accent);
-  transform: translateY(-4px);
   box-shadow: var(--pw-shadow);
 }
 
@@ -239,6 +237,8 @@
 }
 
 .project-card {
+  // Keep the hover target stationary so its edge cannot move out from
+  // under the pointer and repeatedly restart the hover animation.
   display: block;
   text-decoration: none;
   color: inherit;
@@ -248,14 +248,12 @@
   overflow: hidden;
   transition:
     border-color var(--pw-transition),
-    transform var(--pw-transition),
     box-shadow var(--pw-transition);
 }
 
 .project-card:hover,
 .project-card:focus-visible {
   border-color: var(--pw-accent);
-  transform: translateY(-6px);
   box-shadow: var(--pw-shadow);
 }
 

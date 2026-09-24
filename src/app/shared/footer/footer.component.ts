@@ -10,6 +10,10 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
   templateUrl: './footer.component.html',
 })
 export class FooterComponent implements AfterViewInit, OnDestroy {
+  backToTop(): void {
+    window.scrollTo({ top: 0, behavior: 'instant' });
+  }
+
   private trigger?: ScrollTrigger;
   private tween?: gsap.core.Tween;
 

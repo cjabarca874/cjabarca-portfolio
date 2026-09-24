@@ -8,6 +8,7 @@ import { AboutComponent } from './about/about.component';
 import { WorksComponent } from './works/works.component';
 import { PortfolioWorkComponent } from './portfolio-work/portfolio-work.component';
 import { BrandsComponent } from './brands/brands.component';
+import { BrandBoardsComponent } from './brand-boards/brand-boards.component';
 
 @Component({
   selector: 'app-home',
@@ -18,6 +19,7 @@ import { BrandsComponent } from './brands/brands.component';
     WorksComponent,
     PortfolioWorkComponent,
     BrandsComponent,
+    BrandBoardsComponent,
   ],
   templateUrl: './home.component.html',
 })
@@ -37,7 +39,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
 
       // Wait a tick so the section components (and their images/layout)
       // have finished rendering, then let ScrollTrigger know the page
-      // changed size before smooth-scrolling to the target section.
+      // changed size before scrolling to the target section.
       setTimeout(() => {
         this.scrollService.refresh();
         this.scrollService.scrollTo(`#${fragment}`);
