@@ -590,9 +590,11 @@ button,
     border-color var(--transition-fast);
 }
 
-.contact-pill:hover {
-  background: var(--color-white);
-  color: var(--color-dark);
+.contact-pill:hover,
+.contact-pill:focus-visible {
+  background-color: var(--color-accent-1);
+  border-color: var(--color-accent-1);
+  color: var(--color-white);
 }
 
 .contact-pill svg {
@@ -934,11 +936,36 @@ body.menu-open {
   width: 14px;
   height: 14px;
 
-  transition: transform var(--transition-fast);
+  transition: transform var(--transition-fast), color var(--transition-fast);
 }
 
 .cta-link:hover svg {
   transform: translate(3px, -3px);
+}
+
+/* Shared underline and arrow feedback for text-style actions. */
+.cta-link,
+.view-work,
+.work-view {
+  transition: border-color var(--transition-fast);
+}
+
+.cta-link svg,
+.view-work svg,
+.work-view svg {
+  transition: transform var(--transition-fast), color var(--transition-fast);
+}
+
+.cta-link:is(:hover, :focus-visible),
+.view-work:is(:hover, :focus-visible),
+.work-view:is(:hover, :focus-visible) {
+  border-bottom-color: var(--color-accent-1);
+}
+
+.cta-link:is(:hover, :focus-visible) svg,
+.view-work:is(:hover, :focus-visible) svg,
+.work-view:is(:hover, :focus-visible) svg {
+  color: var(--color-accent-1);
 }
 
 /* =========================================================
@@ -953,6 +980,17 @@ body.menu-open {
   color: var(--color-white);
   cursor: pointer;
   min-height: 44px;
+  transition: background-color 250ms ease, border-color 250ms ease,
+    color 250ms ease, box-shadow 250ms ease;
+}
+
+@media (hover: hover) {
+  .back-to-top:hover {
+    background-color: var(--color-accent-1);
+    border-color: var(--color-accent-1);
+    color: var(--color-white);
+    box-shadow: 0 4px 18px rgba(242, 72, 54, .22);
+  }
 }
 
 .back-to-top:focus-visible {
@@ -1124,7 +1162,7 @@ body.menu-open {
   width: 14px;
   height: 14px;
 
-  transition: transform var(--transition-fast);
+  transition: transform var(--transition-fast), color var(--transition-fast);
 }
 
 .view-work:hover svg {
@@ -1602,7 +1640,7 @@ body.menu-open {
   width: 14px;
   height: 14px;
 
-  transition: transform var(--transition-fast);
+  transition: transform var(--transition-fast), color var(--transition-fast);
 }
 
 .work-view:hover svg {
@@ -2315,6 +2353,13 @@ footer .wordmark {
    FOOTER BOTTOM
 ========================================================= */
 
+.footer-credits {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  line-height: 1.6;
+}
+
 .footer-bottom {
   margin-top: 70px;
 
@@ -3006,3 +3051,4 @@ footer .wordmark {
 
   color: var(--color-white-pure);
 }
+
