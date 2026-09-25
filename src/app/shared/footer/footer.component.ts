@@ -2,6 +2,7 @@ import { AfterViewInit, Component, ElementRef, OnDestroy } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { ScrollService } from '../../core/scroll.service';
 
 @Component({
   selector: 'app-footer',
@@ -11,13 +12,13 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 })
 export class FooterComponent implements AfterViewInit, OnDestroy {
   backToTop(): void {
-    window.scrollTo({ top: 0, behavior: 'instant' });
+    this.scrollService.scrollTo(0);
   }
 
   private trigger?: ScrollTrigger;
   private tween?: gsap.core.Tween;
 
-  constructor(private host: ElementRef<HTMLElement>) {}
+  constructor(private host: ElementRef<HTMLElement>, private scrollService: ScrollService) {}
 
   ngAfterViewInit(): void {
     if (typeof window === 'undefined') {

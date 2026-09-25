@@ -1,0 +1,102 @@
+:host {
+  display: block;
+}
+.about {
+  isolation: isolate;
+}
+.about-portal {
+  visibility: hidden;
+  z-index: 4;
+}
+.portal-glow {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  visibility: hidden;
+  pointer-events: none;
+  background: radial-gradient(
+    ellipse,
+    #75b8d9 0%,
+    #0b1d29 45%,
+    transparent 75%
+  );
+}
+.portal-caption {
+  position: absolute;
+  inset: auto var(--container-padding) 12%;
+  z-index: 6;
+  text-align: center;
+  color: #ffffff;
+  visibility: hidden;
+  pointer-events: none;
+  text-shadow: 0 2px 12px #000000;
+}
+.portal-caption span {
+  color: var(--color-accent-1);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+}
+.portal-caption p {
+  margin-top: 12px;
+  font-family: var(--font-heading);
+  font-weight: var(--weight-heading);
+  font-size: clamp(24px, 3vw, 40px);
+  line-height: 1.15;
+  text-wrap: balance;
+}
+.about-copy strong {
+  color: var(--color-accent-1);
+}
+.about-flow {
+  height: auto;
+  min-height: 100svh;
+  display: block;
+}
+.about-flow .about-portal,
+.about-flow .portal-glow {
+  height: 100svh;
+  bottom: auto;
+}
+.about-flow .portal-caption {
+  top: 78svh;
+  bottom: auto;
+}
+.about-flow .wrap {
+  display: block;
+}
+.about-flow .about-copy {
+  margin-bottom: 40px;
+}
+.about-flow .about-stage {
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.about-flow .about-image {
+  position: relative;
+  inset: auto;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 4 / 3;
+}
+.about-flow .about-card {
+  position: relative;
+  inset: auto;
+  width: 100%;
+  min-height: auto;
+}
+@media (prefers-reduced-motion: reduce) {
+  .about-portal,
+  .portal-glow,
+  .portal-caption {
+    display: none;
+  }
+}
+
+@media (max-width: 767px) {
+  #about {
+    padding-top: 120px !important;
+  }
+}

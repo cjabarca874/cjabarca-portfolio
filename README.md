@@ -2,10 +2,11 @@
 
 This is your original portfolio (`index.html` / `project.html` / `style.css` /
 `script.js` / `hero-effect.js` / `project.js` / `project-data.js`) converted
-into an Angular application with routed pages. It uses native browser
-scrolling alongside GSAP/ScrollTrigger pinned sections, the Three.js hero
-particle field, and the brands coverflow. Scroll smoothing was removed
-after disabling it resolved flicker in the client work section.
+into an Angular application with routed pages. Lenis smooths wheel scrolling
+through one shared GSAP ticker alongside ScrollTrigger pinned sections,
+the Three.js hero, and the brands coverflow. Touch scrolling stays native;
+reduced-motion preferences disable smoothing. ScrollTrigger refreshes also
+update Lenis dimensions after pinned layouts change.
 
 ## Project structure
 
@@ -18,7 +19,7 @@ after disabling it resolved flicker in the client work section.
   `project.html?slug=...`.
 - `src/app/data/project.ts` — the three projects (Huts Haven, CompTech, GPS
   Drone), ported from `project-data.js`.
-- `src/app/core/scroll.service.ts` — native section navigation, header scroll
+- `src/app/core/scroll.service.ts` — shared smooth scrolling, navigation, header scroll
   state, and shared GSAP ScrollTrigger setup.
 - `src/styles.css` — your original `style.css`, unchanged, loaded globally.
 - `public/images`, `public/fonts` — your original assets.

@@ -45,7 +45,7 @@ export class ProjectComponent implements OnInit, OnDestroy {
       // land back at the top for the new project using native scrolling.
       setTimeout(() => {
         this.scrollService.refresh();
-        this.scrollService.scrollTo(0);
+        this.scrollService.scrollTo(0, true);
 
         // Re-run the entrance animations on every project (the *ngFor
         // meta/overview content gets rebuilt each time, so old

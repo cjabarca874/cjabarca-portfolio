@@ -1,4 +1,13 @@
 <section class="about" id="about">
+  <app-logo-motion
+    class="about-portal"
+    (available)="onVideoAvailable($event)"
+  ></app-logo-motion>
+  <div class="portal-glow" aria-hidden="true"></div>
+  <div class="portal-caption" aria-hidden="true">
+    <span>Behind the mark</span>
+    <p>Keep scrolling. Step into my world.</p>
+  </div>
   <div class="wrap">
     <!-- LEFT CONTENT -->
 
@@ -17,8 +26,8 @@
       </p>
 
       <p>
-        I also have experience with hosting and website infrastructure
-        tools, including Cloudways, Cloudflare, and Pressable. I care about websites
+        I also have experience with hosting and website infrastructure tools,
+        including Cloudways, Cloudflare, and Pressable. I care about websites
         that look polished, feel easy to use, and communicate clearly.
       </p>
 
@@ -70,8 +79,8 @@
         <h3>Web Development</h3>
 
         <p>
-          I turn designs into responsive and functional websites using
-          modern front-end techniques and website-building platforms.
+          I turn designs into responsive and functional websites using modern
+          front-end techniques and website-building platforms.
         </p>
       </article>
 
@@ -98,8 +107,8 @@
 
         <p>
           I use Figma to plan clear page structures and intuitive interfaces,
-          from wireframes and website concepts to detailed layouts ready
-          for development.
+          from wireframes and website concepts to detailed layouts ready for
+          development.
         </p>
       </article>
     </div>

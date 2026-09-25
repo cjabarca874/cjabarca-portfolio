@@ -9,6 +9,7 @@
 ========================================================= */
 
 @import url("https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;600;700&display=swap");
+@import "lenis/dist/lenis.css";
 
 /* =========================================================
    LOCAL FONT — HEADINGS
@@ -936,7 +937,9 @@ body.menu-open {
   width: 14px;
   height: 14px;
 
-  transition: transform var(--transition-fast), color var(--transition-fast);
+  transition:
+    transform var(--transition-fast),
+    color var(--transition-fast);
 }
 
 .cta-link:hover svg {
@@ -953,7 +956,9 @@ body.menu-open {
 .cta-link svg,
 .view-work svg,
 .work-view svg {
-  transition: transform var(--transition-fast), color var(--transition-fast);
+  transition:
+    transform var(--transition-fast),
+    color var(--transition-fast);
 }
 
 .cta-link:is(:hover, :focus-visible),
@@ -980,8 +985,11 @@ body.menu-open {
   color: var(--color-white);
   cursor: pointer;
   min-height: 44px;
-  transition: background-color 250ms ease, border-color 250ms ease,
-    color 250ms ease, box-shadow 250ms ease;
+  transition:
+    background-color 250ms ease,
+    border-color 250ms ease,
+    color 250ms ease,
+    box-shadow 250ms ease;
 }
 
 @media (hover: hover) {
@@ -989,7 +997,7 @@ body.menu-open {
     background-color: var(--color-accent-1);
     border-color: var(--color-accent-1);
     color: var(--color-white);
-    box-shadow: 0 4px 18px rgba(242, 72, 54, .22);
+    box-shadow: 0 4px 18px rgba(242, 72, 54, 0.22);
   }
 }
 
@@ -1162,7 +1170,9 @@ body.menu-open {
   width: 14px;
   height: 14px;
 
-  transition: transform var(--transition-fast), color var(--transition-fast);
+  transition:
+    transform var(--transition-fast),
+    color var(--transition-fast);
 }
 
 .view-work:hover svg {
@@ -1349,7 +1359,7 @@ body.menu-open {
 #about-count {
   min-width: 62px;
 
-  color: var(--color-text-dark-70);
+  color: var(--color-text-light-70);
 
   font-family: var(--font-body);
 
@@ -1640,7 +1650,9 @@ body.menu-open {
   width: 14px;
   height: 14px;
 
-  transition: transform var(--transition-fast), color var(--transition-fast);
+  transition:
+    transform var(--transition-fast),
+    color var(--transition-fast);
 }
 
 .work-view:hover svg {
@@ -2361,6 +2373,8 @@ footer .wordmark {
 }
 
 .footer-bottom {
+  /* Keep footer actions clear of the viewport's scroll-progress badge. */
+  padding-right: calc(120px + env(safe-area-inset-right, 0px));
   margin-top: 70px;
 
   padding-top: var(--space-5);
@@ -3051,4 +3065,3 @@ footer .wordmark {
 
   color: var(--color-white-pure);
 }
-

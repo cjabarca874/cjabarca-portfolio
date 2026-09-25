@@ -1,0 +1,7 @@
+:host { display: block; position: absolute; inset: 0; pointer-events: none; }
+.logo-motion, .logo-stage { position: absolute; inset: 0; }
+.logo-motion { background: #03060a; }
+video, canvas { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+canvas { visibility: hidden; }
+.has-frame canvas { visibility: visible; }
+.has-frame video { visibility: hidden; }

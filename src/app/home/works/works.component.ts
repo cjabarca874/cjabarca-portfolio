@@ -16,6 +16,7 @@ import { RevealHandle, revealOnScroll } from '../../core/reveal';
   standalone: true,
   imports: [CommonModule, RouterLink],
   templateUrl: './works.component.html',
+  styles: [':host { display: block; }'],
 })
 export class WorksComponent implements AfterViewInit, OnDestroy {
   projects: Project[] = PROJECTS;

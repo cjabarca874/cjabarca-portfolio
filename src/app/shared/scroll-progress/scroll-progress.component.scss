@@ -1,0 +1,40 @@
+:host { position: fixed; inset: 0; z-index: 90; pointer-events: none; }
+.scroll-percentage {
+  position: absolute;
+  right: max(24px, env(safe-area-inset-right));
+  bottom: max(24px, env(safe-area-inset-bottom));
+  width: 96px;
+  height: 96px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 20%, #ffffff0d, transparent 70%), #10151bcc;
+  color: var(--color-white);
+  box-shadow: 0 8px 28px #00000033;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(8px);
+  transition: opacity .3s ease, transform .3s ease, visibility .3s;
+}
+@supports ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .scroll-percentage { background-color: #10151b80; backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); }
+}
+.is-visible { opacity: 1; visibility: visible; transform: translateY(0); }
+.progress-ring { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; transform: rotate(-90deg); }
+.ring-track, .ring-fill { fill: none; stroke-width: 6; }
+.ring-track { stroke: #ffffff14; }
+.ring-fill {
+  stroke: var(--color-accent-1);
+  stroke-linecap: round;
+  stroke-dasharray: 100;
+  stroke-dashoffset: 100;
+  filter: drop-shadow(0 0 3px rgba(242, 72, 54, .55));
+}
+.progress-value { position: relative; font-family: var(--font-heading); font-weight: var(--weight-heading); font-size: 26px; line-height: 1; font-variant-numeric: tabular-nums; }
+.percent-sign { color: var(--color-accent-1); font-size: 16px; }
+@media (max-width: 600px) {
+  .scroll-percentage { width: 76px; height: 76px; right: max(14px, env(safe-area-inset-right)); bottom: max(14px, env(safe-area-inset-bottom)); }
+  .progress-value { font-size: 21px; }
+  .percent-sign { font-size: 13px; }
+}
+@media (prefers-reduced-motion: reduce) { .scroll-percentage { transition: none; transform: none; } }
