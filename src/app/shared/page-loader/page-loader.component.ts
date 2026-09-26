@@ -3,20 +3,17 @@ import {
   Component,
   ElementRef,
   EventEmitter,
+  NgZone,
   OnDestroy,
   Output,
   ViewChild,
 } from "@angular/core";
+import gsap from "gsap";
 
 @Component({
   selector: "app-page-loader",
   standalone: true,
-  template: `<div
-    class="loader"
-    [class.leaving]="leaving"
-    role="status"
-    aria-label="Opening portfolio"
-  >
+  template: `<div class="loader" role="status" aria-label="Opening portfolio">
     <video
       #video
       src="videos/Video%20Logo.mp4"
@@ -54,16 +51,30 @@ import {
         z-index: 10000;
       }
       .loader {
+        --loader-columns: 8;
         position: absolute;
         inset: 0;
         background: #000;
         display: grid;
         place-items: center;
-        transition: opacity 300ms ease;
       }
-      .leaving {
-        opacity: 0;
+      .loader::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        z-index: 1;
         pointer-events: none;
+        background-image: linear-gradient(
+          to left,
+          rgba(255, 255, 255, 0.04) 1px,
+          transparent 1px
+        );
+        background-size: calc(100% / var(--loader-columns)) 100%;
+      }
+      @media (max-width: 767px) {
+        .loader {
+          --loader-columns: 4;
+        }
       }
       video {
         width: 100%;
@@ -135,9 +146,14 @@ export class PageLoaderComponent implements AfterViewInit, OnDestroy {
   @Output() completed = new EventEmitter<void>();
   leaving = false;
   percentage = 0;
+  private exitTimeline?: gsap.core.Timeline;
   private timeout?: ReturnType<typeof setTimeout>;
   private fade?: ReturnType<typeof setTimeout>;
   private previousOverflow = "";
+  constructor(
+    private host: ElementRef<HTMLElement>,
+    private zone: NgZone,
+  ) {}
   ngAfterViewInit(): void {
     this.previousOverflow = document.documentElement.style.overflow;
     document.documentElement.style.overflow = "hidden";
@@ -166,9 +182,48 @@ export class PageLoaderComponent implements AfterViewInit, OnDestroy {
     this.percentage = 100;
     clearTimeout(this.timeout);
     this.video.nativeElement.pause();
-    this.fade = setTimeout(() => this.completed.emit(), 300);
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      this.fade = setTimeout(() => this.completed.emit(), 0);
+      return;
+    }
+    const root = this.host.nativeElement;
+    const loader = root.querySelector<HTMLElement>(".loader")!;
+    // Clip the existing loader into columns, keeping a single video and surface.
+    const columnCount =
+      Number(
+        getComputedStyle(loader).getPropertyValue("--loader-columns").trim(),
+      ) || 8;
+    // Keep borders and the reveal aligned if the viewport changes during exit.
+    loader.style.setProperty("--loader-columns", String(columnCount));
+    const columnWidth = 100 / columnCount;
+    const columns = Array.from({ length: columnCount }, () => ({
+      height: 100,
+    }));
+    const updateColumns = () => {
+      const points = ["0% 0%", "100% 0%"];
+      for (let index = columns.length - 1; index >= 0; index--) {
+        const height = columns[index].height;
+        points.push(
+          `${(index + 1) * columnWidth}% ${height}%`,
+          `${index * columnWidth}% ${height}%`,
+        );
+      }
+      loader.style.clipPath = `polygon(${points.join(", ")})`;
+    };
+    this.exitTimeline = gsap.timeline({
+      delay: 0.15,
+      onComplete: () => this.zone.run(() => this.completed.emit()),
+    });
+    this.exitTimeline.to(columns, {
+      height: 0,
+      duration: 0.85,
+      stagger: { each: 0.055, from: "end" },
+      ease: "power3.inOut",
+      onUpdate: updateColumns,
+    });
   }
   ngOnDestroy(): void {
+    this.exitTimeline?.kill();
     clearTimeout(this.timeout);
     clearTimeout(this.fade);
     this.video.nativeElement.pause();
