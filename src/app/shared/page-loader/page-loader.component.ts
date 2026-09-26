@@ -211,14 +211,14 @@ export class PageLoaderComponent implements AfterViewInit, OnDestroy {
       loader.style.clipPath = `polygon(${points.join(", ")})`;
     };
     this.exitTimeline = gsap.timeline({
-      delay: 0.15,
+      delay: 0.25,
       onComplete: () => this.zone.run(() => this.completed.emit()),
     });
     this.exitTimeline.to(columns, {
       height: 0,
-      duration: 0.85,
-      stagger: { each: 0.055, from: "end" },
-      ease: "power3.inOut",
+      duration: 0.8,
+      stagger: { amount: 0.45, from: "end" },
+      ease: "sine.inOut",
       onUpdate: updateColumns,
     });
   }
