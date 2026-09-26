@@ -37,6 +37,7 @@ export class LogoMotionComponent implements AfterViewInit, OnDestroy {
       let scene: THREE.Scene;
       let camera: THREE.OrthographicCamera;
       let plane: THREE.Mesh<THREE.PlaneGeometry, THREE.MeshBasicMaterial>;
+      const isMobile = window.matchMedia('(max-width: 767px)');
 
       const stop = () => {
         cancelAnimationFrame(frame);
@@ -55,7 +56,8 @@ export class LogoMotionComponent implements AfterViewInit, OnDestroy {
         if (!renderer || disposed) return;
         if (video.readyState >= 2 && texture) texture.needsUpdate = true;
         // Fill the viewport without exposing the edges of a floating panel.
-        plane.scale.setScalar(1.02 + Math.pow(Math.max(0, (progress - 0.45) / 0.55), 2) * 4);
+        const maxZoom = isMobile.matches ? 1.7 : 4;
+        plane.scale.setScalar(1.02 + Math.pow(Math.max(0, (progress - 0.45) / 0.55), 2) * maxZoom);
         renderer.render(scene, camera);
       };
       // Coalesce updates and wait for a seek to finish before starting another.

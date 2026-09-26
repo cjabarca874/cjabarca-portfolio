@@ -1,3 +1,7 @@
+@if (loading) {
+  <app-page-loader (completed)="loading = false"></app-page-loader>
+}
+<div [inert]="loading">
 <div class="noise-overlay" aria-hidden="true"></div>
 
 <app-cursor></app-cursor>
@@ -8,3 +12,4 @@
 
 <app-footer></app-footer>
 <app-scroll-progress></app-scroll-progress>
+</div>
